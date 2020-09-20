@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  zefiro-back:
+    build: .
+    restart: always
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - 3000:3000
+    command: npm run dev
+    depends_on:
+      - mongo
+
+  mongo:
+    image: aashreys/mongo-auth:latest
+    command: mongod --port 27017
+    ports:
+      - 27017:27017
