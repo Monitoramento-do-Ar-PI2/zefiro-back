@@ -44,7 +44,7 @@ module.exports = {
 
   deleteAllQualityRanges() {
     return new Promise((resolve) => {
-      QualityRangeModel.deleteMany({ class: 'qualityRange' }).then(() => {
+      QualityRangeModel.deleteMany({ }).then(() => {
         resolve();
       });
     });
