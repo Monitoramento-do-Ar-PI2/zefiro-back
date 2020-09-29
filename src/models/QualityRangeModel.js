@@ -20,6 +20,42 @@ module.exports = class QualityRange {
     });
   }
 
+  appendIndex(value) {
+    this.qualityRange.index.push(value);
+  }
+
+  appendPTS(value) {
+    this.qualityRange.pts.push(value);
+  }
+
+  appendPM10(value) {
+    this.qualityRange.pm10.push(value);
+  }
+
+  appendSO2(value) {
+    this.qualityRange.so2.push(value);
+  }
+
+  appendNO2(value) {
+    this.qualityRange.no2.push(value);
+  }
+
+  appendCO(value) {
+    this.qualityRange.co.push(value);
+  }
+
+  appendO3(value) {
+    this.qualityRange.o3.push(value);
+  }
+
+  appendSmoke(value) {
+    this.qualityRange.smoke.push(value);
+  }
+
+  getQualityRange() {
+    return this.qualityRange;
+  }
+
   saveQualityRange() {
     return new Promise((resolve) => {
       this.qualityRange.save().then(() => {
@@ -40,4 +76,16 @@ module.exports = class QualityRange {
       });
     });
   }
-}
+
+  deleteMe() {
+    return new Promise((resolve, reject) => {
+      QualityRangeModel.deleteOne({ quality: this.qualityRange.quality }, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+};
