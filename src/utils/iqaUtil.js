@@ -5,12 +5,15 @@ const IQAUtil = {
     let iqaMax = {
       index: 0,
       quality: 'Boa',
+      pollutantInitial: '',
+      pollutant: '',
     };
     const iqas = [];
     const badIQAS = [];
 
     pollutants.forEach((pollutant) => {
-      const iqaPollutant = this.calculateIQAR(pollutant.concentration, pollutant.pollutant);
+      const iqaPollutant = this.calculateIQAR(pollutant.concentration,
+        pollutant.pollutantInitial, pollutant.pollutant);
 
       iqas.push(iqaPollutant);
       if (iqaPollutant.index > iqaMax.index) {
@@ -30,10 +33,13 @@ const IQAUtil = {
     let iqaMax = {
       index: 0,
       quality: 'Boa',
+      pollutantInitial: '',
+      pollutant: '',
     };
 
     pollutants.forEach((pollutant) => {
-      const iqaPollutant = this.calculateIQAR(pollutant.concentration, pollutant.pollutant);
+      const iqaPollutant = this.calculateIQAR(pollutant.concentration,
+        pollutant.pollutantInitial, pollutant.pollutant);
 
       if (iqaPollutant.index > iqaMax.index) {
         iqaMax = iqaPollutant;
@@ -42,24 +48,26 @@ const IQAUtil = {
 
     return iqaMax;
   },
-  calculateIQAR(concentration, pollutant) {
+  calculateIQAR(concentration, pollutantInitial, pollutant) {
     const iqar = {
       index: 0,
       quality: 'Boa',
+      pollutantInitial,
+      pollutant,
     };
 
     qualityRangeTable.forEach((qualityRange) => {
-      if (qualityRange[pollutant][0] <= concentration
-        && qualityRange[pollutant][1] >= concentration) {
+      if (qualityRange[pollutantInitial][0] <= concentration
+        && qualityRange[pollutantInitial][1] >= concentration) {
         const index = qualityRange.index[1] - qualityRange.index[0];
-        const con = qualityRange[pollutant][1] - qualityRange[pollutant][0];
-        const ale = concentration - qualityRange[pollutant][0];
+        const con = qualityRange[pollutantInitial][1] - qualityRange[pollutantInitial][0];
+        const ale = concentration - qualityRange[pollutantInitial][0];
         iqar.index = ((index / con) * ale) + qualityRange.index[0];
         iqar.quality = qualityRange.quality;
-      } else if (qualityRange.quality === 'Crítica' && qualityRange[pollutant][0] <= concentration) {
+      } else if (qualityRange.quality === 'Crítica' && qualityRange[pollutantInitial][0] <= concentration) {
         const index = qualityRange.index[0];
-        const con = qualityRange[pollutant][0];
-        const ale = concentration - qualityRange[pollutant][0];
+        const con = qualityRange[pollutantInitial][0];
+        const ale = concentration - qualityRange[pollutantInitial][0];
         iqar.index = ((index / con) * ale) + qualityRange.index[0];
         iqar.quality = qualityRange.quality;
       }
