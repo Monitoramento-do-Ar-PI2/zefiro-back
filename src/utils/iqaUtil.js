@@ -1,6 +1,31 @@
 const qualityRangeTable = require('./qualityRangeTableUtil');
 
 const IQAUtil = {
+  calculateBadsIQA(pollutants) {
+    let iqaMax = {
+      index: 0,
+      quality: 'Boa',
+    };
+    const iqas = [];
+    const badIQAS = [];
+
+    pollutants.forEach((pollutant) => {
+      const iqaPollutant = this.calculateIQAR(pollutant.concentration, pollutant.pollutant);
+
+      iqas.push(iqaPollutant);
+      if (iqaPollutant.index > iqaMax.index) {
+        iqaMax = iqaPollutant;
+      }
+    });
+
+    iqas.forEach((iqa) => {
+      if (iqa.quality !== 'Boa' && iqa.quality !== 'Regular') {
+        badIQAS.push(iqa);
+      }
+    });
+
+    return badIQAS;
+  },
   calculateAllIQA(pollutants) {
     let iqaMax = {
       index: 0,
