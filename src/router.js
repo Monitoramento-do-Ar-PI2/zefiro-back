@@ -1,11 +1,19 @@
 const express = require('express');
+const mqtt = require('mqtt');
 const StationModel = require('./models/StationModel');
 const IQAUtil = require('./utils/iqaUtil');
+
+const client = mqtt.connect('mqtt://localhost:1883');
 
 const router = express.Router();
 
 router.get('/', (_, res) => {
   res.json('WELCOME!!');
+});
+
+router.get('/getStation', (_, res) => {
+  client.publish('Zefiro/FGA1', '1');
+  res.json('DONE');
 });
 
 router.post('/saveStation', (req, res) => {

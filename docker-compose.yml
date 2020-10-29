@@ -8,6 +8,7 @@ services:
       - .:/app
       - /app/node_modules
     ports:
+      - 1883:1883
       - 3000:3000
     command: npm run dev
     depends_on:

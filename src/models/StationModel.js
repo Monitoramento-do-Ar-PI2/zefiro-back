@@ -7,16 +7,17 @@ const StationModel = mongoose.model('StationModel', StationSchema);
 module.exports = class Station {
   constructor(station) {
     this.station = new StationModel({
+      clientId: station.clientId,
       name: station.name,
       longitude: station.longitude,
       latitude: station.latitude,
-      pts: station.pts,
-      pm10: station.pm10,
-      so2: station.so2,
-      no2: station.no2,
-      co: station.co,
-      o3: station.o3,
-      smoke: station.smoke,
+      pts: station.pts ? station.pts : 0,
+      pm10: station.pm10 ? station.pm10 : 0,
+      so2: station.so2 ? station.so2 : 0,
+      no2: station.no2 ? station.no2 : 0,
+      co: station.co ? station.co : 0,
+      o3: station.o3 ? station.o3 : 0,
+      smoke: station.smoke ? station.smoke : 0,
     });
   }
 
@@ -39,7 +40,6 @@ module.exports = class Station {
   }
 
   static findNearbyStation(longitude, latitude) {
-    // console.log(latitude, longitude);
     return new Promise((resolve) => {
       this.findAll().then((stations) => {
         let nearbyStation = {};
@@ -85,6 +85,23 @@ module.exports = class Station {
   findMe() {
     return new Promise((resolve) => {
       StationModel.find({ name: this.station.name },
+        (err) => {
+          if (err) {
+            resolve({});
+          }
+        }).then((station) => {
+        if (station) {
+          this.station = station;
+          resolve(station);
+        }
+        resolve({});
+      });
+    });
+  }
+
+  findMeWithClientId() {
+    return new Promise((resolve) => {
+      StationModel.find({ clientId: this.station.clientId },
         (err) => {
           if (err) {
             resolve({});
