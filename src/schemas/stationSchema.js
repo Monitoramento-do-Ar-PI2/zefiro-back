@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const StationSchema = new mongoose.Schema({
+  clientId: String,
   name: String,
   longitude: String,
   latitude: String,
