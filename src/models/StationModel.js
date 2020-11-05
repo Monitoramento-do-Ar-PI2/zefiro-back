@@ -76,26 +76,33 @@ module.exports = class Station {
 
   save() {
     return new Promise((resolve) => {
-      this.station.save().then(() => {
-        resolve(this.station);
+      this.findMe().then((isFound) => {
+        if (!isFound) {
+          StationModel.create(this.station).then(() => {
+            resolve(this.station);
+          });
+        } else {
+          resolve({});
+        }
       });
     });
   }
 
+  update() {
+    this.station.save();
+  }
+
   findMe() {
     return new Promise((resolve) => {
-      StationModel.find({ name: this.station.name },
-        (err) => {
-          if (err) {
-            resolve({});
+      StationModel.findOne({ name: this.station.name })
+        .then((station) => {
+          if (station !== null && Object.entries(station).length !== 0) {
+            this.station = station;
+            resolve(true);
+          } else {
+            resolve(false);
           }
-        }).then((station) => {
-        if (station) {
-          this.station = station;
-          resolve(station);
-        }
-        resolve({});
-      });
+        });
     });
   }
 
@@ -104,14 +111,16 @@ module.exports = class Station {
       StationModel.find({ clientId: this.station.clientId },
         (err) => {
           if (err) {
-            resolve({});
+            resolve(false);
           }
         }).then((station) => {
-        if (station) {
-          this.station = station;
-          resolve(station);
+        if (station.length !== 0) {
+          // eslint-disable-next-line prefer-destructuring
+          this.station = station[0];
+          resolve(true);
+        } else {
+          resolve(false);
         }
-        resolve({});
       });
     });
   }

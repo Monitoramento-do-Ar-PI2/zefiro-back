@@ -73,9 +73,33 @@ class Broker {
           const stationJSON = JSON.parse(packet.payload.toString());
           const station = new Station({ ...stationJSON, clientId: client.id });
           station.save();
-        } else if (packet.topic.match('/').index === 2) {
+        } else if ((packet.topic.split('/').length - 1) === 2) {
           const station = new Station({ clientId: client.id });
-          station.findMeWithClientId().then(() => {
+          const stationJSON = JSON.parse(packet.payload.toString());
+
+          station.findMeWithClientId().then((isFound) => {
+            if (isFound) {
+              switch (packet.topic.slice(-2)) {
+                case '00':
+                  station.station.no2 = stationJSON.no2;
+                  break;
+                case '01':
+                  station.station.no2 = stationJSON.no2;
+                  station.station.o3 = stationJSON.o3;
+                  station.station.co = stationJSON.co;
+                  break;
+                default:
+                  station.station.no2 = stationJSON.no2;
+                  station.station.o3 = stationJSON.o3;
+                  station.station.co = stationJSON.co;
+                  station.station.pts = stationJSON.pts;
+                  station.station.pm10 = stationJSON.pm10;
+                  station.station.so2 = stationJSON.so2;
+                  station.station.smoke = stationJSON.smoke;
+                  break;
+              }
+              station.update();
+            }
           });
         }
       }
