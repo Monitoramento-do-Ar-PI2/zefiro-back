@@ -2,7 +2,7 @@ const QualityRanges = [
   {
     quality: 'Boa',
     index: [0, 50],
-    pts: [0, 80],
+    pm25: [0, 25],
     pm10: [0, 50],
     so2: [0, 80],
     no2: [0, 100],
@@ -13,7 +13,7 @@ const QualityRanges = [
   {
     quality: 'Regular',
     index: [51, 100],
-    pts: [81, 240],
+    pm25: [26, 50],
     pm10: [51, 150],
     so2: [81, 365],
     no2: [101, 320],
@@ -24,7 +24,7 @@ const QualityRanges = [
   {
     quality: 'Inadequada',
     index: [101, 199],
-    pts: [241, 375],
+    pm25: [51, 75],
     pm10: [151, 250],
     so2: [366, 800],
     no2: [321, 1130],
@@ -35,7 +35,7 @@ const QualityRanges = [
   {
     quality: 'Má',
     index: [200, 299],
-    pts: [376, 625],
+    pm25: [76, 125],
     pm10: [251, 420],
     so2: [801, 1600],
     no2: [1131, 2260],
@@ -46,7 +46,7 @@ const QualityRanges = [
   {
     quality: 'Péssima',
     index: [300, 399],
-    pts: [626, 875],
+    pm25: [126, 300],
     pm10: [421, 500],
     so2: [1601, 2100],
     no2: [2261, 3000],
@@ -57,7 +57,7 @@ const QualityRanges = [
   {
     quality: 'Crítica',
     index: [400],
-    pts: [876],
+    pm25: [301],
     pm10: [500],
     so2: [2100],
     no2: [3000],

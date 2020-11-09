@@ -11,7 +11,7 @@ module.exports = class Station {
       name: station.name,
       longitude: station.longitude,
       latitude: station.latitude,
-      pts: station.pts ? station.pts : 0,
+      pm25: station.pm25 ? station.pm25 : 0,
       pm10: station.pm10 ? station.pm10 : 0,
       so2: station.so2 ? station.so2 : 0,
       no2: station.no2 ? station.no2 : 0,

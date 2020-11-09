@@ -92,7 +92,7 @@ class Broker {
                   station.station.no2 = stationJSON.no2;
                   station.station.o3 = stationJSON.o3;
                   station.station.co = stationJSON.co;
-                  station.station.pts = stationJSON.pts;
+                  station.station.pm25 = stationJSON.pm25;
                   station.station.pm10 = stationJSON.pm10;
                   station.station.so2 = stationJSON.so2;
                   station.station.smoke = stationJSON.smoke;
