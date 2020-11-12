@@ -4,7 +4,6 @@ const admin = require('firebase-admin');
 const mongooseConnection = require('./db/connection');
 const Broker = require('./broker');
 const ZefiroScheduler = require('./utils/scheduler');
-const serviceAccount = require('./firebase-service-account.json');
 
 const FIREBASE_DATABASE_URL = 'https://zefiro-app.firebaseio.com';
 
@@ -13,7 +12,6 @@ const app = express();
 Broker.getInstance().init();
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
   databaseURL: FIREBASE_DATABASE_URL,
 });
 
