@@ -8,6 +8,6 @@ const Recommendation = [
   'Com tosse ou irritação na garganta? Reduza suas atividades ao ar livre',
   'Atividade física regular beneficia o corpo e a mente',
   'Evite se exercitar com febre, tosse ou dificuladde de respirar',
-]
+];
 
 module.exports = Recommendation;

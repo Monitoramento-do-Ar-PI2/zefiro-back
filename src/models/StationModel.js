@@ -11,13 +11,13 @@ module.exports = class Station {
       name: station.name,
       longitude: station.longitude,
       latitude: station.latitude,
-      pm25: station.pm25 ? station.pm25 : 0,
+      pm2_5: station.pm2_5 ? station.pm2_5 : 0,
       pm10: station.pm10 ? station.pm10 : 0,
       so2: station.so2 ? station.so2 : 0,
       no2: station.no2 ? station.no2 : 0,
       co: station.co ? station.co : 0,
       o3: station.o3 ? station.o3 : 0,
-      smoke: station.smoke ? station.smoke : 0,
+      smoke: station.smoke,
     });
   }
 
