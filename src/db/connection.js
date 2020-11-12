@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
 
-const saveQualityRanges = require('./saveQualityRangeDB.js');
-
-const qualityRangeDB = require('../utils/qualityRangeTableUtil.js');
-
 module.exports = {
   connect: () => new Promise((resolve) => {
     mongoose.Promise = global.Promise;
@@ -18,8 +14,6 @@ module.exports = {
     };
 
     mongoose.connect('mongodb://mongo:27017/zefiro-back', options).then(async () => {
-      await saveQualityRanges.deleteAllQualityRanges();
-      await saveQualityRanges.saveQualityRange(qualityRangeDB);
       resolve();
     }).catch();
   }),

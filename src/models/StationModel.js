@@ -7,15 +7,16 @@ const StationModel = mongoose.model('StationModel', StationSchema);
 module.exports = class Station {
   constructor(station) {
     this.station = new StationModel({
+      clientId: station.clientId,
       name: station.name,
       longitude: station.longitude,
       latitude: station.latitude,
-      pts: station.pts,
-      pm10: station.pm10,
-      so2: station.so2,
-      no2: station.no2,
-      co: station.co,
-      o3: station.o3,
+      pm2_5: station.pm2_5 ? station.pm2_5 : 0,
+      pm10: station.pm10 ? station.pm10 : 0,
+      so2: station.so2 ? station.so2 : 0,
+      no2: station.no2 ? station.no2 : 0,
+      co: station.co ? station.co : 0,
+      o3: station.o3 ? station.o3 : 0,
       smoke: station.smoke,
     });
   }
@@ -39,7 +40,6 @@ module.exports = class Station {
   }
 
   static findNearbyStation(longitude, latitude) {
-    // console.log(latitude, longitude);
     return new Promise((resolve) => {
       this.findAll().then((stations) => {
         let nearbyStation = {};
@@ -76,25 +76,51 @@ module.exports = class Station {
 
   save() {
     return new Promise((resolve) => {
-      this.station.save().then(() => {
-        resolve(this.station);
+      this.findMe().then((isFound) => {
+        if (!isFound) {
+          StationModel.create(this.station).then(() => {
+            resolve(this.station);
+          });
+        } else {
+          resolve({});
+        }
       });
     });
   }
 
+  update() {
+    this.station.save();
+  }
+
   findMe() {
     return new Promise((resolve) => {
-      StationModel.find({ name: this.station.name },
+      StationModel.findOne({ name: this.station.name })
+        .then((station) => {
+          if (station !== null && Object.entries(station).length !== 0) {
+            this.station = station;
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        });
+    });
+  }
+
+  findMeWithClientId() {
+    return new Promise((resolve) => {
+      StationModel.find({ clientId: this.station.clientId },
         (err) => {
           if (err) {
-            resolve({});
+            resolve(false);
           }
         }).then((station) => {
-        if (station) {
-          this.station = station;
-          resolve(station);
+        if (station.length !== 0) {
+          // eslint-disable-next-line prefer-destructuring
+          this.station = station[0];
+          resolve(true);
+        } else {
+          resolve(false);
         }
-        resolve({});
       });
     });
   }

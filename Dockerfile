@@ -6,4 +6,3 @@ RUN npm install
 RUN npm i nodemon -g
 COPY . /app
 CMD npm run dev
-EXPOSE 3000
